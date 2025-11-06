@@ -8,6 +8,9 @@ on:
     branches:
       - main               # si tu rama principal se llama master, cámbialo aquí
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
