@@ -1,0 +1,30 @@
+name: Generate snek
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # todos los días a medianoche UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate snake SVG
+        uses: Platane/snk@v3
+        with:
+          github_user_name: RodrigoLiGo
+          outputs: dist/github-contribution-grid-snake.svg
+
+      - name: Push generated SVG to output branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update snake.svg
+          file_pattern: dist/**
+          branch: output
