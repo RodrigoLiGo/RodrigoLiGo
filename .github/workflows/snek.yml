@@ -1,0 +1,30 @@
+name: Animación Snek
+
+on:
+  schedule:
+    - cron: "0 0 * * *"    # se ejecuta todos los días a medianoche UTC
+  workflow_dispatch:       # te permite correrlo manualmente desde Actions
+  push:
+    branches:
+      - main               # si tu rama principal se llama master, cámbialo aquí
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate snake SVG
+        uses: Platane/snk@v3
+        with:
+          github_user_name: RodrigoLiGo
+          outputs: dist/github-contribution-grid-snake.svg
+
+      - name: Commit and push generated SVG to branch 'output'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: update snake svg"
+          file_pattern: "dist/**"
+          branch: output
